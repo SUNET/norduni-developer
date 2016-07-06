@@ -1,0 +1,10 @@
+*~
+\#*
+.*~
+data
+*.pyc
+.*.swp
+.*.swo
+.idea
+sources
+postgres/sql/postgres.sql
