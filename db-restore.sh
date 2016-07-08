@@ -33,14 +33,19 @@ echo "docker start norduni_neo4j_1"
 docker start norduni_neo4j_1
 
 msg "Waiting for neo4j to start"
-sleep 5
+sleep 7
+
+msg "Changing password for user neo4j"
+echo "curl --user neo4j:neo4j -D - -H "Content-Type: application/json" --data '{"password" : "docker"}' http://localhost:7474/user/neo4j/password"
+curl --user neo4j:neo4j -D - -H "Content-Type: application/json" --data '{"password" : "docker"}' http://localhost:7474/user/neo4j/password
 
 msg "Adding indexes to neo4j"
-echo "curl -D - -H "Content-Type: application/json" --data '{"name" : "node_auto_index","config" : {"type" : "fulltext","provider" : "lucene"}}' -X POST http://localhost:7474/db/data/index/node/"
-curl -D - -H "Content-Type: application/json" --data '{"name" : "node_auto_index","config" : {"type" : "fulltext","provider" : "lucene"}}' -X POST http://localhost:7474/db/data/index/node/
-echo "curl -D - -H "Content-Type: application/json" --data '{"name" : "relationship_auto_index","config" : {"type" : "fulltext","provider" : "lucene"}}' -X POST http://localhost:7474/db/data/index/relationship/"
-curl -D - -H "Content-Type: application/json" --data '{"name" : "relationship_auto_index","config" : {"type" : "fulltext","provider" : "lucene"}}' -X POST http://localhost:7474/db/data/index/relationship/
+echo "bash -c create_index.sh"
+bash -c $DEV_DIR/create_auto_index.sh
 
+msg "Restarting neo4j"
+echo "docker stop norduni_neo4j_1 && docker start norduni_neo4j_1"
+docker stop norduni_neo4j_1 && docker start norduni_neo4j_1
 
 msg "Drop, Create DB"
 echo "docker exec -it norduni_postgres_1 psql --username postgres -f /sql/drop-create-grant.sql"

@@ -20,16 +20,21 @@ services:
       - "POSTGRES_PASSWORD=docker"
 
   neo4j:
-      image: docker.sunet.se/library/neo4j:2.1.8
+      image: docker.sunet.se/library/neo4j:3.0
       expose:
         - 7474
+        - 7687
       networks:
         dev:
       ports:
         - "7474:7474"
+        - "7687:7687"
       volumes:
         - ../data/neo4j/data:/data
         - ../neo4j/conf:/conf
+      #environment:
+          #- "NEO4J_AUTH=neo4j/docker"
+          #- "NEO4J_dbms_allowFormatMigration=true"
 
 networks:
   dev:
