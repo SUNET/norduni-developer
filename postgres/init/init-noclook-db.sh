@@ -4,6 +4,7 @@ set -e
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE USER ni;
     ALTER USER "ni" WITH PASSWORD 'docker';
+    ALTER USER "ni" CREATEDB;
     CREATE DATABASE norduni;
     GRANT ALL PRIVILEGES ON DATABASE norduni TO ni;
 EOSQL
