@@ -39,10 +39,6 @@ msg "Changing password for user neo4j"
 echo "curl --user neo4j:neo4j -D - -H "Content-Type: application/json" --data '{"password" : "docker"}' http://localhost:7474/user/neo4j/password"
 curl --user neo4j:neo4j -D - -H "Content-Type: application/json" --data '{"password" : "docker"}' http://localhost:7474/user/neo4j/password
 
-msg "Adding indexes to neo4j"
-echo "bash -c create_index.sh"
-bash -c $DEV_DIR/create_auto_index.sh
-
 msg "Restarting neo4j"
 echo "docker stop norduni_neo4j_1 && docker start norduni_neo4j_1"
 docker stop norduni_neo4j_1 && docker start norduni_neo4j_1

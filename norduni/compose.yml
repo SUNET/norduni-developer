@@ -8,6 +8,7 @@ services:
       - 5432
     networks:
       dev:
+        ipv4_address: 172.16.21.100
     ports:
       - "5432:5432"
     volumes:
@@ -20,12 +21,13 @@ services:
       - "POSTGRES_PASSWORD=docker"
 
   neo4j:
-      image: docker.sunet.se/library/neo4j:3.0
+      image: neo4j
       expose:
         - 7474
         - 7687
       networks:
         dev:
+          ipv4_address: 172.16.21.110
       ports:
         - "7474:7474"
         - "7687:7687"
@@ -36,6 +38,43 @@ services:
           #- "NEO4J_AUTH=neo4j/docker"
           #- "NEO4J_dbms_allowFormatMigration=true"
 
+  noclook:
+      image: docker.sunet.se/norduni/noclook:latest
+      expose:
+        - 8080
+      networks:
+        dev:
+          ipv4_address: 172.16.21.120
+      volumes:
+        - ../noclook/etc/dotenv:/var/opt/norduni/norduni/src/niweb/.env:ro
+        - ../noclook/staticfiles:/var/opt/norduni/staticfiles
+        - ../noclook/log:/var/log/norduni
+        - ../sources/norduni:/var/opt/source/norduni
+      environment:
+        - DJANGO_SETTINGS_MODULE=niweb.settings.dev
+        - CONFIG_FILE=/var/opt/norduni/norduni/src/niweb/.env
+        - STATIC_ROOT=/var/opt/norduni/staticfiles
+        - LOG_PATH=/var/log/norduni
+        - PYTHONPATH=/var/opt/source/norduni/src/niweb:/var/opt/norduni/norduni/src/niweb
+      depends_on:
+        - postgres
+        - neo4j
+
+  nginx:
+      image: nginx
+      expose:
+        - 80
+      networks:
+        dev:
+          ipv4_address: 172.16.21.130
+      ports:
+        - "80:80"
+      volumes:
+        - ../nginx/etc:/etc/nginx/conf.d
+        - ../noclook/staticfiles:/usr/share/nginx/html/static
+      depends_on:
+        - noclook
+
 networks:
   dev:
     driver: bridge
@@ -44,5 +83,4 @@ networks:
       config:
         - subnet: 172.16.21.0/24
           gateway: 172.16.21.1
-
 

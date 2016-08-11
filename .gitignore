@@ -8,3 +8,5 @@ data
 .idea
 sources
 postgres/sql/postgres.sql
+noclook/log/*
+noclook/staticfiles/*
