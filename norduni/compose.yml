@@ -47,9 +47,12 @@ services:
           ipv4_address: 172.16.21.120
       volumes:
         - ../noclook/etc/dotenv:/var/opt/norduni/norduni/src/niweb/.env:ro
+        - ../noclook/etc/neo4j-only.conf:/var/opt/norduni/norduni/src/scripts/neo4j-only.conf:ro
+        - ../noclook/etc/full-update.conf:/var/opt/norduni/norduni/src/scripts/full-update.conf:ro
         - ../noclook/staticfiles:/var/opt/norduni/staticfiles
         - ../noclook/log:/var/log/norduni
         - ../sources/norduni:/var/opt/source/norduni
+        - ../sources/nistore:/var/opt/nistore
       environment:
         - DJANGO_SETTINGS_MODULE=niweb.settings.dev
         - CONFIG_FILE=/var/opt/norduni/norduni/src/niweb/.env
