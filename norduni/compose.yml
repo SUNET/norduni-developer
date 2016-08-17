@@ -64,7 +64,7 @@ services:
         - neo4j
 
   nginx:
-      image: nginx
+      image: docker.sunet.se/eduid/nginx
       expose:
         - 80
       networks:
@@ -73,7 +73,7 @@ services:
       ports:
         - "80:80"
       volumes:
-        - ../nginx/etc:/etc/nginx/conf.d
+        - ../nginx/etc/default.conf:/etc/nginx/sites-enabled/default:ro
         - ../noclook/staticfiles:/usr/share/nginx/html/static
       depends_on:
         - noclook
