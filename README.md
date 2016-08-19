@@ -2,7 +2,7 @@
 
 ## How?
 
-To start just run `start.sh`.
+To start just run `start.sh`. If it is the first time starting after cloning the repo begin by running `before_first_run.sh`.
 
 That should start a Neo4j database, a PostgreSQL database, a Nginx webserver and the NOCLook application.
 
