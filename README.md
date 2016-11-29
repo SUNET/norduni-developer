@@ -8,10 +8,10 @@ That should start a Neo4j database, a PostgreSQL database, a Nginx webserver and
 
 The script will ask you for sudo rights to write in your hosts file. The following entrys will be added.
 
-172.16.21.100   postgres.norduni_dev postgres.norduni.docker
-172.16.21.110   neo4j.norduni_dev neo4j.norduni.docker
-172.16.21.120   noclook.norduni_dev noclook.norduni.docker
-172.16.21.130   nginx.norduni_dev nginx.norduni.docker
+172.16.21.100   postgres.norduni.docker
+172.16.21.110   neo4j.norduni.docker
+172.16.21.120   noclook.norduni.docker
+172.16.21.130   nginx.norduni.docker
 
 If you see no errors in the output you should be able to open your browser to nginx.norduni.docker and see the NOCLook app.
 

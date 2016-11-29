@@ -30,7 +30,9 @@ DB_HOST=postgres
 
 # General settings
 #LOGIN_URL=
-#ALLOWED_HOSTS=
+STATIC_ROOT=/var/opt/norduni/static
+MEDIA_ROOT=/var/opt/norduni/media
+ALLOWED_HOSTS=nginx.norduni.docker
 #SENTRY_DSN=
 SECRET_KEY=secret
 LOG_PATH=/var/log/norduni

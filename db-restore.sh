@@ -19,8 +19,8 @@ function msg(){
 }
 
 msg "Stopping neo4j"
-echo "docker stop norduni_neo4j_1"
-docker stop norduni_neo4j_1
+echo "docker stop neo4j.norduni.docker"
+docker stop neo4j.norduni.docker
 
 
 msg "Removing neo4j data"
@@ -29,8 +29,8 @@ sudo rm -rf $NEO4J_DIR/data/*
 
 
 msg "Starting neo4j again"
-echo "docker start norduni_neo4j_1"
-docker start norduni_neo4j_1
+echo "docker start neo4j.norduni.docker"
+docker start neo4j.norduni.docker
 
 msg "Waiting for neo4j to start"
 sleep 7
@@ -40,37 +40,37 @@ echo "curl --user neo4j:neo4j -D - -H "Content-Type: application/json" --data '{
 curl --user neo4j:neo4j -D - -H "Content-Type: application/json" --data '{"password" : "docker"}' http://localhost:7474/user/neo4j/password
 
 msg "Restarting neo4j"
-echo "docker stop norduni_neo4j_1 && docker start norduni_neo4j_1"
-docker stop norduni_neo4j_1 && docker start norduni_neo4j_1
+echo "docker stop neo4j.norduni.docker && docker start neo4j.norduni.docker"
+docker stop neo4j.norduni.docker && docker start neo4j.norduni.docker
 
 msg "Stopping NOCLook"
-echo "docker stop norduni_noclook_1"
-docker stop norduni_noclook_1
+echo "docker stop noclook.norduni.docker"
+docker stop noclook.norduni.docker
 
 msg "Drop, Create DB"
-echo "docker exec -it norduni_postgres_1 psql --username postgres -f /sql/drop-create-grant.sql"
-docker exec -it norduni_postgres_1 psql --username postgres -f /sql/drop-create-grant.sql
+echo "docker exec -it postgres.norduni.docker psql --username postgres -f /sql/drop-create-grant.sql"
+docker exec -it postgres.norduni.docker psql --username postgres -f /sql/drop-create-grant.sql
 
 msg "Import DB"
-echo "docker exec -it norduni_postgres_1 psql --username postgres -f /sql/postgres.sql $DB_NAME"
-docker exec -it norduni_postgres_1 psql --username postgres -f /sql/postgres.sql $DB_NAME
+echo "docker exec -it postgres.norduni.docker gunzip -c /sql/postgres.sql.gz | psql --username postgres $DB_NAME"
+docker exec -it postgres.norduni.docker bash -c "gunzip -c /sql/postgres.sql.gz | /usr/bin/psql --username postgres $DB_NAME"
 
 msg "Starting NOCLook"
-echo "docker start norduni_noclook_1"
-docker start norduni_noclook_1
+echo "docker start noclook.norduni.docker"
+docker start noclook.norduni.docker
 
 msg "Python migrate"
-echo "docker exec -it norduni_noclook_1 $VIRTUAL_ENV/bin/python $MANAGE_PY migrate"
-docker exec -it norduni_noclook_1 $VIRTUAL_ENV/bin/python $MANAGE_PY migrate
+echo "docker exec -it noclook.norduni.docker $VIRTUAL_ENV/bin/python $MANAGE_PY migrate"
+docker exec -it noclook.norduni.docker $VIRTUAL_ENV/bin/python $MANAGE_PY migrate
 
 msg "Create superuser"
-echo "docker exec -it norduni_noclook_1 $VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser"
-docker exec -it norduni_noclook_1 $VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser
+echo "docker exec -it noclook.norduni.docker $VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser"
+docker exec -it noclook.norduni.docker $VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser
 
 msg "Reset DB sequences"
-echo "docker exec -it norduni_postgres_1 psql --username postgres -f /sql/reset-sequences-noclook.sql $DB_NAME"
-docker exec -it norduni_postgres_1 psql --username postgres -f /sql/reset-sequences-noclook.sql $DB_NAME
+echo "docker exec -it postgres.norduni.docker psql --username postgres -f /sql/reset-sequences-noclook.sql $DB_NAME"
+docker exec -it postgres.norduni.docker psql --username postgres -f /sql/reset-sequences-noclook.sql $DB_NAME
 
 msg "Importing neo4j data from json"
-echo "docker exec -it norduni_noclook_1 cd $NOCLOOK_DIR && $VIRTUAL_ENV/bin/python noclook_consumer.py -C neo4j-only.conf -I"
-docker exec -u ni -it norduni_noclook_1 bash -c "cd $NOCLOOK_DIR && $VIRTUAL_ENV/bin/python noclook_consumer.py -C neo4j-only.conf -I"
+echo "docker exec -it noclook.norduni.docker cd $NOCLOOK_DIR && $VIRTUAL_ENV/bin/python noclook_consumer.py -C neo4j-only.conf -I"
+docker exec -u ni -it noclook.norduni.docker bash -c "cd $NOCLOOK_DIR && $VIRTUAL_ENV/bin/python noclook_consumer.py -C neo4j-only.conf -I"

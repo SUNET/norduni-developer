@@ -4,6 +4,7 @@ services:
 
   postgres:
     image: postgres
+    container_name: postgres.norduni.docker
     expose:
       - 5432
     networks:
@@ -14,7 +15,7 @@ services:
     volumes:
       - ../data/postgresql/data/:/var/lib/postgresql/data/
       - ../postgres/sql/:/sql/
-      - ../sources/nistore/producers/noclook/sql/postgres.sql:/sql/postgres.sql:ro
+      - ../sources/nistore/producers/noclook/sql/postgres.sql.gz:/sql/postgres.sql.gz:ro
       - ../postgres/init/init-noclook-db.sh:/docker-entrypoint-initdb.d/init-noclook-db.sh
     environment:
       - "POSTGRES_USER=postgres"
@@ -22,6 +23,7 @@ services:
 
   neo4j:
       image: neo4j
+      container_name: neo4j.norduni.docker
       expose:
         - 7474
         - 7687
@@ -40,6 +42,7 @@ services:
 
   noclook:
       image: docker.sunet.se/norduni/noclook:latest
+      container_name: noclook.norduni.docker
       expose:
         - 8080
       networks:
@@ -50,6 +53,7 @@ services:
         - ../noclook/etc/neo4j-only.conf:/var/opt/norduni/norduni/src/scripts/neo4j-only.conf:ro
         - ../noclook/etc/full-update.conf:/var/opt/norduni/norduni/src/scripts/full-update.conf:ro
         - ../noclook/staticfiles:/var/opt/norduni/staticfiles
+        - ../noclook/media:/var/opt/norduni/media
         - ../noclook/log:/var/log/norduni
         - ../sources/norduni:/var/opt/source/norduni
         - ../sources/nistore:/var/opt/nistore
@@ -65,6 +69,7 @@ services:
 
   nginx:
       image: docker.sunet.se/eduid/nginx
+      container_name: nginx.norduni.docker
       expose:
         - 80
       networks:
