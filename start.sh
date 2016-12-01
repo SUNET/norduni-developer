@@ -11,7 +11,7 @@ fi
 (printf "172.16.21.100\t postgres.norduni.docker\n";
     printf "172.16.21.110\t neo4j.norduni.docker\n";
     printf "172.16.21.120\t noclook.norduni.docker\n";
-    printf "172.16.21.130\t nginx.norduni.docker\n";
+    printf "127.0.0.1\t nginx.norduni.docker\n";
 ) \
     | while read line; do
     if ! grep -q "^${line}$" /etc/hosts; then
