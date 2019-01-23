@@ -15,3 +15,6 @@ To reinitialize the databases using the latest backups you first need to symlink
     │   └── nistore -> /.../nistore/
 
 Start the databases using `start.sh` and then just run `db-restore.sh`.
+
+### Run demo
+To run the demo set up the sources as above and run `load_demo.sh` from the demo subdirectory.

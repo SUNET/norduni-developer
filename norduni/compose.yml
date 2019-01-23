@@ -3,7 +3,7 @@ version: '2'
 services:
 
   postgres:
-    image: postgres
+    image: postgres:latest
     expose:
       - 5432
     networks:
@@ -20,16 +20,49 @@ services:
       - "POSTGRES_PASSWORD=docker"
 
   neo4j:
-      image: docker.sunet.se/library/neo4j:2.1.8
+      image: neo4j
       expose:
         - 7474
+        - 7687
       networks:
         dev:
       ports:
-        - "7474:7474"
+        - "127.0.0.1:7474:7474"
+        - "127.0.0.1:7687:7687"
       volumes:
         - ../data/neo4j/data:/data
-        - ../neo4j/conf:/conf
+        - ../neo4j/conf:/var/lib/neo4j/conf
+
+  neo4j-test:
+    image: neo4j:latest
+    volumes:
+      - ../data/neo4j-test:/data
+    ports:
+      - '127.0.0.1:6464:7474'
+      - '127.0.0.1:6686:7687'
+    networks:
+      - dev
+
+  norduni:
+    build: ../sources/norduni
+    ports:
+      - '8000:8000'
+    networks:
+      - dev
+    depends_on:
+      - postgres
+      - neo4j
+    environment:
+      - NEO4J_RESOURCE_URI=bolt://neo4j:7687
+      - TEST_NEO4J_URI=bolt://neo4j-test:7687
+      - DB_HOST=postgres
+      - DJANGO_SETTINGS_MODULE=niweb.settings.dev
+      - REPORTS_TO=reports@example.com
+    volumes:
+      - ../sources/norduni/src:/app
+    command: ["dev"]
+    stdin_open: true
+    tty: true
 
 networks:
   dev:
