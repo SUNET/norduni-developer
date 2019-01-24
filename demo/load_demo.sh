@@ -70,10 +70,6 @@ msg "Python migrate"
 echo "$VIRTUAL_ENV/bin/python $MANAGE_PY migrate --settings=niweb.settings.dev"
 $VIRTUAL_ENV/bin/python $MANAGE_PY migrate --settings=niweb.settings.dev
 
-msg "Create superuser"
-echo "$VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser --settings=niweb.settings.dev"
-$VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser --settings=niweb.settings.dev
-
 msg "Reset postgres sequences"
 cat <<EOM | docker exec -i $postgres_id psql -q -o /dev/null norduni ni
 BEGIN;
@@ -89,6 +85,10 @@ echo "tar xvf neo4j_data.tar.gz"
 tar xvf neo4j_data.tar.gz
 echo "$VIRTUAL_ENV/bin/python $NOCLOOK_DIR/noclook_consumer.py -C load_demo.conf -I"
 DJANGO_SETTINGS_MODULE=niweb.settings.dev $VIRTUAL_ENV/bin/python $NOCLOOK_DIR/noclook_consumer.py -C load_demo.conf -I
+
+msg "Create superuser"
+echo "$VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser --settings=niweb.settings.dev"
+$VIRTUAL_ENV/bin/python $MANAGE_PY createsuperuser --settings=niweb.settings.dev
 
 msg "Stopping docker compose environment"
 echo "../bin/docker-compose -f ../norduni/compose.yml down"
