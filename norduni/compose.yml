@@ -58,8 +58,10 @@ services:
       - DB_HOST=postgres
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
+      - PYTHONPATH=/opt/norduniclient
     volumes:
       - ../sources/norduni/src:/app
+      - ../../python-norduniclient:/opt/norduniclient
     command: ["dev"]
     stdin_open: true
     tty: true
@@ -72,5 +74,3 @@ networks:
       config:
         - subnet: 172.16.21.0/24
           gateway: 172.16.21.1
-
-
