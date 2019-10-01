@@ -58,10 +58,11 @@ services:
       - DB_HOST=postgres
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
-      - PYTHONPATH=/opt/norduniclient
+      - PYTHONPATH=/opt/norduniclient:/opt/django-vakt
     volumes:
       - ../sources/norduni/src:/app
       - ../../python-norduniclient:/opt/norduniclient
+      - ../../django-vakt:/opt/django-vakt
     command: ["dev"]
     stdin_open: true
     tty: true
