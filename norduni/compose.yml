@@ -67,6 +67,19 @@ services:
     stdin_open: true
     tty: true
 
+  sri-front:
+    build: ../sources/sri-front
+    ports:
+      - '8080:8080'
+    networks:
+      - dev
+    depends_on:
+      - postgres
+      - neo4j
+      - norduni
+    stdin_open: true
+    tty: true
+
 networks:
   dev:
     driver: bridge
