@@ -70,7 +70,8 @@ services:
   sri-front:
     build: ../sources/sri-front
     ports:
-      - '8080:8080'
+      - '80:80'
+      - '443:443'
     networks:
       - dev
     depends_on:
