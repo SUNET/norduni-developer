@@ -59,6 +59,7 @@ services:
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
       - PYTHONPATH=/opt/norduniclient:/opt/django-vakt
+      - COOKIE_DOMAIN=localhost
     volumes:
       - ../sources/norduni/src:/app
       - ../../python-norduniclient:/opt/norduniclient
