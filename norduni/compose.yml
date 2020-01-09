@@ -75,6 +75,8 @@ services:
       - '443:443'
     networks:
       - dev
+    volumes:
+      - ../sources/sri-front/cert:/cert
     depends_on:
       - postgres
       - neo4j
