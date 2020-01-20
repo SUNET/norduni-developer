@@ -59,7 +59,7 @@ services:
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
       - PYTHONPATH=/opt/norduniclient:/opt/django-vakt
-      - COOKIE_DOMAIN=localhost
+      - COOKIE_DOMAIN=.localenv.loc
     volumes:
       - ../sources/norduni/src:/app
       - ../../python-norduniclient:/opt/norduniclient
@@ -75,8 +75,6 @@ services:
       - '443:443'
     networks:
       - dev
-    volumes:
-      - ../sources/sri-front/cert:/cert
     depends_on:
       - postgres
       - neo4j
