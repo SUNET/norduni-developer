@@ -1,0 +1,107 @@
+---
+version: '2'
+services:
+
+  postgres:
+    image: postgres:latest
+    expose:
+      - 5432
+    networks:
+      dev:
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../data/postgresql/data/:/var/lib/postgresql/data/
+      - ../postgres/sql/:/sql/
+      - ../sources/nistore/producers/noclook/sql/postgres.sql:/sql/postgres.sql:ro
+      - ../postgres/init/init-noclook-db.sh:/docker-entrypoint-initdb.d/init-noclook-db.sh
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=docker"
+
+  neo4j:
+      image: neo4j:3.5
+      expose:
+        - 7474
+        - 7687
+      networks:
+        dev:
+      ports:
+        - "127.0.0.1:7474:7474"
+        - "127.0.0.1:7687:7687"
+      volumes:
+        - ../data/neo4j/data:/data
+        - ../neo4j/conf:/var/lib/neo4j/conf
+
+  neo4j-test:
+    image: neo4j:3.5
+    volumes:
+      - ../data/neo4j-test:/data
+    ports:
+      - '127.0.0.1:6464:7474'
+      - '127.0.0.1:6686:7687'
+    networks:
+      - dev
+
+  norduni:
+    build: ../sources/norduni
+    ports:
+      - '8000:8000'
+    networks:
+      - dev
+    depends_on:
+      - postgres
+      - neo4j
+    environment:
+      - NEO4J_RESOURCE_URI=bolt://neo4j:7687
+      - TEST_NEO4J_URI=bolt://neo4j-test:7687
+      - DB_HOST=postgres
+      - DJANGO_SETTINGS_MODULE=niweb.settings.dev
+      - REPORTS_TO=reports@example.com
+      - PYTHONPATH=/opt/norduniclient:/opt/django-vakt
+      - COOKIE_DOMAIN=.ed-integrations.com
+    volumes:
+      - ../sources/norduni/src:/app
+      - ../../python-norduniclient:/opt/norduniclient
+      - ../../django-vakt:/opt/django-vakt
+    command: ["dev"]
+    stdin_open: true
+    tty: true
+
+  sri-front:
+    build:
+        context: ../sources/sri-front
+        args:
+            - API_HOST=ni.ed-integrations.com
+            - COOKIE_DOMAIN=.ed-integrations.com
+    depends_on:
+      - postgres
+      - neo4j
+      - norduni
+    volumes:
+      - ../bundle:/app/bundle
+    stdin_open: false
+    tty: true
+
+  sri-nginx:
+    build: ../sources/sri-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    networks:
+      - dev
+    depends_on:
+      - sri-front
+    volumes:
+      - ../bundle/:/usr/share/nginx/html
+    stdin_open: true
+    tty: true
+
+networks:
+  dev:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.21.0/24
+          gateway: 172.16.21.1
