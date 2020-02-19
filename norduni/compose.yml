@@ -70,15 +70,26 @@ services:
 
   sri-front:
     build: ../sources/sri-front
+    depends_on:
+      - postgres
+      - neo4j
+      - norduni
+    volumes:
+      - ../bundle:/app/bundle
+    stdin_open: false
+    tty: true
+
+  sri-nginx:
+    build: ../sources/sri-nginx
     ports:
       - '80:80'
       - '443:443'
     networks:
       - dev
     depends_on:
-      - postgres
-      - neo4j
-      - norduni
+      - sri-front
+    volumes:
+      - ../bundle/:/usr/share/nginx/html
     stdin_open: true
     tty: true
 
