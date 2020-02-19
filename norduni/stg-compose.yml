@@ -59,7 +59,7 @@ services:
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
       - PYTHONPATH=/opt/norduniclient:/opt/django-vakt
-      - COOKIE_DOMAIN=.localenv.loc
+      - COOKIE_DOMAIN=.ed-integrations.com
     volumes:
       - ../sources/norduni/src:/app
       - ../../python-norduniclient:/opt/norduniclient
@@ -72,8 +72,8 @@ services:
     build:
         context: ../sources/sri-front
         args:
-            - API_HOST=ni.localenv.loc
-            - COOKIE_DOMAIN=.localenv.loc
+            - API_HOST=ni.ed-integrations.com
+            - COOKIE_DOMAIN=.ed-integrations.com
     depends_on:
       - postgres
       - neo4j
