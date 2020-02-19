@@ -74,10 +74,6 @@ services:
         args:
             - API_HOST=ni.ed-integrations.com
             - COOKIE_DOMAIN=.ed-integrations.com
-    depends_on:
-      - postgres
-      - neo4j
-      - norduni
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false
@@ -92,6 +88,7 @@ services:
       - dev
     depends_on:
       - sri-front
+      - norduni
     volumes:
       - ../bundle/:/usr/share/nginx/html
     stdin_open: true
