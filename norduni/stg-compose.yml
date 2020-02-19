@@ -80,17 +80,22 @@ services:
     tty: true
 
   sri-nginx:
-    build: ../sources/sri-nginx
+    image: docker.sunet.se/eduid/nginx:stable
+    expose:
+      - 443
+      - 80
     ports:
-      - '80:80'
-      - '443:443'
+      - 80:80
+      - 443:443
     networks:
       - dev
-    depends_on:
-      - sri-front
-      - norduni
     volumes:
+      - ./cert/:/cert
+      - ./nginxconf/stg-nginx.conf:/etc/nginx/sites-enabled/sri.conf
       - ../bundle/:/usr/share/nginx/html
+    depends_on:
+      - norduni
+      - sri-front
     stdin_open: true
     tty: true
 
