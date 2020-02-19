@@ -69,14 +69,15 @@ services:
     tty: true
 
   sri-front:
-    build: ../sources/sri-front
+    build:
+        context: ../sources/sri-front
+        args:
+            - API_HOST=ni.localenv.loc
+            - COOKIE_DOMAIN=.localenv.loc
     depends_on:
       - postgres
       - neo4j
       - norduni
-    environment:
-      - API_HOST=ni.localenv.loc
-      - COOKIE_DOMAIN=.localenv.loc
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false
