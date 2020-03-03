@@ -90,14 +90,13 @@ services:
       - ./cert/:/cert
       - ./nginxconf/stg-nginx.conf:/etc/nginx/sites-enabled/sri.conf
       - ../bundle/:/usr/share/nginx/html
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
     depends_on:
       - norduni
       - sri-front
     stdin_open: true
     tty: true
-    volumes:
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
 
 networks:
   dev:
