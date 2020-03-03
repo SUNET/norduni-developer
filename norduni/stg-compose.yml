@@ -95,6 +95,9 @@ services:
       - sri-front
     stdin_open: true
     tty: true
+    volumes:
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
 
 networks:
   dev:
