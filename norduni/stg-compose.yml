@@ -69,8 +69,8 @@ services:
     build:
         context: ../sources/sri-front
         args:
-            - API_HOST=ni.ed-integrations.com
-            - COOKIE_DOMAIN=.ed-integrations.com
+            - REACT_APP_API_HOST=ni.ed-integrations.com
+            - REACT_APP_COOKIE_DOMAIN=.ed-integrations.com
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false

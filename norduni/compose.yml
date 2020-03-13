@@ -69,8 +69,8 @@ services:
     build:
         context: ../sources/sri-front
         args:
-            - API_HOST=ni.localenv.loc
-            - COOKIE_DOMAIN=.localenv.loc
+            - REACT_APP_API_HOST=ni.localenv.loc
+            - REACT_APP_COOKIE_DOMAIN=.localenv.loc
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false
