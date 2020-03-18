@@ -68,9 +68,6 @@ services:
   sri-front:
     build:
         context: ../sources/sri-front
-        args:
-            - REACT_APP_API_HOST=ni.localenv.loc
-            - REACT_APP_COOKIE_DOMAIN=.localenv.loc
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false
@@ -78,6 +75,10 @@ services:
 
   sri-nginx:
     image: docker.sunet.se/eduid/nginx:stable
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_HOST=ni.localenv.loc
+      - REACT_APP_COOKIE_DOMAIN=.localenv.loc
     expose:
       - 443
       - 80
