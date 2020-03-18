@@ -67,7 +67,11 @@ services:
 
   sri-front:
     build:
-        context: ../sources/sri-front
+      context: ../sources/sri-front
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_HOST=ni.ed-integrations.com
+      - REACT_APP_COOKIE_DOMAIN=.ed-integrations.com
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false
@@ -75,10 +79,6 @@ services:
 
   sri-nginx:
     image: docker.sunet.se/eduid/nginx:stable
-    environment:
-      - NODE_ENV=production
-      - REACT_APP_API_HOST=ni.ed-integrations.com
-      - REACT_APP_COOKIE_DOMAIN=.ed-integrations.com
     expose:
       - 443
       - 80
