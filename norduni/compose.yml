@@ -59,6 +59,7 @@ services:
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
       - COOKIE_DOMAIN=.localenv.loc
+      - SRI_FRONTEND_URL=sri.localenv.loc
     volumes:
       - ../sources/norduni/src:/app
     command: ["dev"]

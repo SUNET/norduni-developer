@@ -59,6 +59,7 @@ services:
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
       - COOKIE_DOMAIN=.ed-integrations.com
+      - SRI_FRONTEND_URL=sri.ed-integrations.com
     volumes:
       - ../sources/norduni/src:/app
     command: ["dev"]
