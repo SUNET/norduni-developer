@@ -7,12 +7,12 @@ To start a postgresql and neo4j database just run `start.sh`. After that start N
 TODO: Create a docker image for NOCLook.
 
 ### Import data
-To reinitialize the databases using the latest backups you first need to symlink the [norduni](https://github.com/NORDUnet/ni) and nistore repo under the sources dir.
+To reinitialize the databases using the latest backups you first need to symlink the [norduni](https://github.com/NORDUnet/ni) and [sri-front](https://github.com/SUNET/sri-front) repo under the sources dir.
 
     norduni-developer
     ├── sources
     │   ├── norduni -> /.../norduni/
-    │   └── nistore -> /.../nistore/
+    │   └── sri-front -> /.../sri-front/
 
 Start the databases using `start.sh` and then just run `db-restore.sh`.
 

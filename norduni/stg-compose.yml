@@ -58,8 +58,8 @@ services:
       - DB_HOST=postgres
       - DJANGO_SETTINGS_MODULE=niweb.settings.dev
       - REPORTS_TO=reports@example.com
-      - COOKIE_DOMAIN=.localenv.loc
-      - SRI_FRONTEND_URL=sri.localenv.loc
+      - COOKIE_DOMAIN=.ed-integrations.com
+      - SRI_FRONTEND_URL=sri.ed-integrations.com
     volumes:
       - ../sources/norduni/src:/app
     command: ["dev"]
@@ -70,9 +70,9 @@ services:
     build:
       context: ../sources/sri-front
     environment:
-      - NODE_ENV=development
-      - REACT_APP_API_HOST=ni.localenv.loc
-      - REACT_APP_COOKIE_DOMAIN=.localenv.loc
+      - NODE_ENV=production
+      - REACT_APP_API_HOST=ni.ed-integrations.com
+      - REACT_APP_COOKIE_DOMAIN=.ed-integrations.com
     volumes:
       - ../bundle:/app/bundle
     stdin_open: false
@@ -90,8 +90,10 @@ services:
       - dev
     volumes:
       - ./cert/:/cert
-      - ./nginxconf/dev-nginx.conf:/etc/nginx/sites-enabled/sri.conf
+      - ./nginxconf/stg-nginx.conf:/etc/nginx/sites-enabled/sri.conf
       - ../bundle/:/usr/share/nginx/html
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
     depends_on:
       - norduni
       - sri-front
