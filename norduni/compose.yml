@@ -60,6 +60,7 @@ services:
       - REPORTS_TO=reports@example.com
       - COOKIE_DOMAIN=.localenv.loc
       - SRI_FRONTEND_URL=sri.localenv.loc
+      - SCRIPT_NAME=/api/
     volumes:
       - ../sources/norduni/src:/app
     command: ["dev"]
@@ -91,7 +92,8 @@ services:
     volumes:
       - ./cert/:/cert
       - ./nginxconf/dev-nginx.conf:/etc/nginx/sites-enabled/sri.conf
-      - ../bundle/:/usr/share/nginx/html
+      - ../bundle/:/usr/share/nginx/html/bundle
+      - ../sources/norduni/src/niweb/niweb/static/:/usr/share/nginx/html/static
     depends_on:
       - norduni
       - sri-front
