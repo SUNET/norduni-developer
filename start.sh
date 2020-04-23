@@ -6,7 +6,7 @@ if [ ! -f norduni/compose.yml ]; then
 fi
 
 # add ni.localenv.loc to hosts file
-(printf '127.0.0.1\tsri.localenv.loc\n127.0.0.1\tni.localenv.loc\n';
+(printf '127.0.0.1\tsri.localenv.loc\n';
 ) \
     | while read -r line; do
     if ! grep -q "^${line}$" /etc/hosts; then
