@@ -60,7 +60,7 @@ services:
       - REPORTS_TO=reports@example.com
       - COOKIE_DOMAIN=sri.localenv.loc
       - SRI_FRONTEND_URL=sri.localenv.loc
-      - SCRIPT_NAME=/api/
+      - SCRIPT_NAME=/api
       - STATIC_URL=/api/static/
     volumes:
       - ../sources/norduni/src:/app
