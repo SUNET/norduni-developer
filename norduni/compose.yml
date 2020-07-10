@@ -71,7 +71,6 @@ services:
   sri-front:
     build:
       context: ../sources/sri-front
-    entrypoint: ["/app/bundle-pj.sh"]
     environment:
       - NODE_ENV=development
       - REACT_APP_API_HOST=sri.localenv.loc/api
