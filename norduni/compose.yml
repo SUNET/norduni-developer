@@ -62,7 +62,7 @@ services:
       - SRI_FRONTEND_URL=sri.localenv.loc
       - SCRIPT_NAME=/api
       - STATIC_URL=/api/static/
-      - INSPECT_SCHEMA=False
+      - INSPECT_SCHEMA=True
     volumes:
       - ../sources/norduni/src:/app
     command: ["dev"]
@@ -83,6 +83,11 @@ services:
       - ../bundle:/bundle
     stdin_open: false
     tty: true
+    expose:
+      - 3000
+    networks:
+      dev:
+        ipv4_address: 172.16.21.7
 
   sri-nginx:
     image: docker.sunet.se/eduid/nginx:stable
@@ -92,6 +97,7 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 3030:3030
     networks:
       dev:
         ipv4_address: 172.16.21.6
