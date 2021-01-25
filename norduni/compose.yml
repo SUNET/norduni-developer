@@ -3,7 +3,7 @@ version: '2'
 services:
 
   postgres:
-    image: postgres:latest
+    image: postgres:12
     expose:
       - 5432
     networks:
@@ -62,6 +62,7 @@ services:
       - SRI_FRONTEND_URL=sri.localenv.loc
       - SCRIPT_NAME=/api
       - STATIC_URL=/api/static/
+      - INSPECT_SCHEMA=True
     volumes:
       - ../sources/norduni/src:/app
     command: ["dev"]
@@ -71,15 +72,23 @@ services:
   sri-front:
     build:
       context: ../sources/sri-front
+    entrypoint: ["/app/bundle-pj.sh"]
     environment:
       - NODE_ENV=development
       - REACT_APP_API_HOST=sri.localenv.loc/api
       - REACT_APP_COOKIE_DOMAIN=sri.localenv.loc
+      - LOGIN_URL=/login/?next=/
+      - SCHEMA_VERSION=common
     volumes:
-      - ../sources/sri-front:/source
+      - ../sources/sri-front:/app
       - ../bundle:/bundle
     stdin_open: false
     tty: true
+    expose:
+      - 3000
+    networks:
+      dev:
+        ipv4_address: 172.16.21.7
 
   sri-nginx:
     image: docker.sunet.se/eduid/nginx:stable
@@ -89,6 +98,7 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 3030:3030
     networks:
       dev:
         ipv4_address: 172.16.21.6
