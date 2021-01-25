@@ -78,6 +78,7 @@ services:
       - REACT_APP_API_HOST=sri.localenv.loc/api
       - REACT_APP_COOKIE_DOMAIN=sri.localenv.loc
       - LOGIN_URL=/login/?next=/
+      - SCHEMA_VERSION=common
     volumes:
       - ../sources/sri-front:/app
       - ../bundle:/bundle
